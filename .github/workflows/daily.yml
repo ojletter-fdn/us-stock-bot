@@ -1,8 +1,8 @@
-name: Daily US News
+name: Daily US Stock News
 on:
   schedule:
-    - cron: '0 23 * * *' # UTC 23시는 한국 시간 오전 8시야.
-  workflow_dispatch: # 수동으로 실행해볼 수 있는 버튼 생성
+    - cron: '0 23 * * *' # 한국 시간 오전 8시
+  workflow_dispatch:
 
 jobs:
   run_bot:
@@ -12,14 +12,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
       - name: Install dependencies
         run: |
-          pip install requests openai
+          pip install requests google-generativeai
       - name: Run script
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          GEMINI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: python main.py
