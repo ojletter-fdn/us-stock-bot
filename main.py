@@ -18,11 +18,12 @@ def get_news():
         return "\n\n".join(news_list)
     return None
 
-def summarize(text):
-    # 가장 안정적인 모델명 사용
-    genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    
+def send_msg(msg):
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    response = requests.post(url, data={'chat_id': CHAT_ID, 'text': msg})
+    # 아래 줄을 추가해서 전송 결과를 로그에 남겨보자
+    print(f"전송 결과: {response.status_code}, {response.text}")
+        
     prompt = f"""
     너는 15년 차 개인 투자자야. 말투는 짧고 단정하게, 반말 70% + 존댓말 30%를 섞어서 써줘. 
     아래 미국 증시 뉴스를 요약해줘.
