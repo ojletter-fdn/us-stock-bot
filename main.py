@@ -19,7 +19,7 @@ def get_news():
 
 def summarize(text):
     genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
     prompt = f"너는 15년차 투자자야. 다음 뉴스를 스레드 스타일로 요약해줘. 제목(후킹), 인사이트, 내용 순으로 작성하고 500자 이내로 해. 반말과 존댓말을 섞어서 담백하게 써줘.\n\n{text}"
     response = model.generate_content(prompt)
     return response.text
