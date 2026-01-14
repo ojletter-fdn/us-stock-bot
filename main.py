@@ -21,7 +21,7 @@ def get_news():
 # 이 부분이 빠져있어서 에러가 났던 거야
 def summarize(text):
     genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
     
     prompt = f"""
     너는 15년 차 개인 투자자야. 말투는 짧고 단정하게, 반말 70% + 존댓말 30%를 섞어서 써줘. 
