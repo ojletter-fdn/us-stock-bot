@@ -18,12 +18,11 @@ def get_news():
         return "\n\n".join(news_list)
     return None
 
-def send_msg(msg):
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    response = requests.post(url, data={'chat_id': CHAT_ID, 'text': msg})
-    # 아래 줄을 추가해서 전송 결과를 로그에 남겨보자
-    print(f"전송 결과: {response.status_code}, {response.text}")
-        
+# 이 부분이 빠져있어서 에러가 났던 거야
+def summarize(text):
+    genai.configure(api_key=GEMINI_KEY)
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    
     prompt = f"""
     너는 15년 차 개인 투자자야. 말투는 짧고 단정하게, 반말 70% + 존댓말 30%를 섞어서 써줘. 
     아래 미국 증시 뉴스를 요약해줘.
@@ -39,13 +38,16 @@ def send_msg(msg):
 
 def send_msg(msg):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    requests.post(url, data={'chat_id': CHAT_ID, 'text': msg})
+    response = requests.post(url, data={'chat_id': CHAT_ID, 'text': msg})
+    # 배달 영수증 확인용 로그
+    print(f"전송 결과: {response.status_code}")
 
-# 실행
+# 실행부
 if __name__ == "__main__":
     news_data = get_news()
     if news_data:
         try:
+            # 여기서 summarize를 호출하는데 위에서 정의가 안 되어 있으면 에러가 남
             summary = summarize(news_data)
             send_msg(summary)
         except Exception as e:
